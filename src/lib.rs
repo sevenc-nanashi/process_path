@@ -77,7 +77,7 @@ pub fn get_dylib_path() -> Option<PathBuf> {
     {
         os::get_dylib_path()
     }
-    #[cfg(not(target_os = "windows"))]
+    #[cfg(not(any(target_os = "windows", target_family = "wasm")))]
     {
         nix::get_dylib_path()
     }
