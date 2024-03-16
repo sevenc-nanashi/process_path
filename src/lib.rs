@@ -52,6 +52,11 @@ use bsd as os;
 ))]
 mod nix;
 
+#[cfg(target_family = "wasm")]
+mod wasm;
+#[cfg(target_family = "wasm")]
+use wasm as os;
+
 #[cfg(target_os = "windows")]
 mod windows;
 #[cfg(target_os = "windows")]
@@ -68,7 +73,7 @@ pub fn get_executable_path() -> Option<PathBuf> {
 /// `None` is returned.
 #[inline]
 pub fn get_dylib_path() -> Option<PathBuf> {
-    #[cfg(target_os = "windows")]
+    #[cfg(any(target_os = "windows", target_family = "wasm"))]
     {
         os::get_dylib_path()
     }
